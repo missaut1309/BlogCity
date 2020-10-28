@@ -1,0 +1,30 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block personalfile %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}" type="text/css">
+{% endblock personalfile %}
+    
+
+{% block title %}Register{% endblock title %}
+
+{% block content %}
+    
+    <div class="form-wrap col-md-6">
+        <div class="form-box">
+            <div class="form-box-body">
+                <div class="app-logo-form">BLOGCITY</div>
+                <div class="app-note">Register to BlogCity</div>
+             
+                <form action="." method="POST" id="login-form">
+                    {% csrf_token %}
+                    <table>
+                        {{ form.as_table }}
+                    </table>
+                    <input type="hidden" name="next" value="/"/>
+                    <input type="submit" value="Register" style="width: 200px; background-color: #5488c7; margin-left: 75px;"/>
+                </form>
+            </div>
+        </div>
+    </div>
+        
+{% endblock content %}
