@@ -79,11 +79,16 @@ WSGI_APPLICATION = 'PythonWeb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+# how to transfer data in django from sqlite to mysql 
+# https://stackoverflow.com/questions/51954289/how-to-transfer-data-in-django-from-sqlite-to-mysql-so-that-all-the-data-that-i
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME':'blogcity',
+        'HOST':'localhost',
+        'USER': 'blogcity',
+        'PASSWORD':'blogcity',
     }
 }
 
