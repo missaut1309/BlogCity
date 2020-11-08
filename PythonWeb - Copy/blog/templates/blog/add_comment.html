@@ -1,27 +1,28 @@
 {% extends 'pages/base.html' %}
 
-{% block title %}Profile Create{% endblock %}
+{% block title %}Add Comment to Post{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
 <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
-    <h1>Create Profile</h1>
+    <h1>Add Comment ... </h1>
     <form method="POST" enctype="multipart/form-data" >
         {% csrf_token %}
-        
+
         {{ form.as_p }}
-        
-        <br/>
-        <button class="btn btn-primary">Create Profile</button>
+
+        <button class="btn btn-primary" style="float: right">Comment</button>
         
     </form>
+    <input type="hidden" value="{{ post.id }}" id="post"/>
 
 </div>
 <script>
-    var name = "{{ user.id }}";
-    document.getElementById("user").value = name;
+    var user = "{{ user.id }}";
+    document.getElementById("user-id").value = user;
+    var post = document.getElementById("post").value;
+    document.getElementById("post-id").value = post;
 </script>
-
 {% else %}
     <strong>You are not allowed to create post!! Please login to create post!!</strong>
 {% endif %}

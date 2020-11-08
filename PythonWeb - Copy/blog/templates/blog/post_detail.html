@@ -7,17 +7,18 @@
     <div >
         <div class="col-md-3">
         {% if post.author.profile.profile_pic %}
-            <img src="{{ post.author.profile.profile_pic.url }}" height= 200 width=200 class="img-circle">
+            <img src="{{ post.author.profile.profile_pic.url }}" height= 150 width=150 class="img-circle">
         {% else %}
-            <img src="{% static 'images/haechan.jpeg' %}" height= 200 width=200 class="img-circle">
+            <img src="{% static 'images/haechan.jpeg' %}" height= 150 width=150 class="img-circle">
         {% endif %}
+        <a href="{% url 'show_profile' post.author.profile.pk %}">
+            <h3>{{ post.author.first_name }} {{ post.author.last_name}}</h3>
+        </a>
+        <hr/>
             
         </div>
         <div class="col-md-9">
-            <a href="{% url 'show_profile' post.author.profile.pk %}">
-                <h3>{{ post.author.first_name }} {{ post.author.last_name}}</h3>
-            </a>
-            <hr/>
+            
             <h2><b>{{post.title}}</b></h2>
 
             <h6> on {{post.date}}</h6>
@@ -43,6 +44,23 @@
                 {% endif %}
                 - {{ total_likes }} likes
             </form>
+            <hr/>
+            <h2>Comments</h2>
+            {% if not post.comments_post.all %}
+                No Comments Yet ... <br/>
+                <a href="{% url 'add_comment' post.pk %}"><button class="btn btn-primary">Add comment</button></a>
+            
+            {% else %}
+                <a href="{% url 'add_comment' post.pk %}"><button class="btn btn-primary">Add comment</button></a>
+                <br/><br/>
+                {% for comment in post.comments_post.all %}
+                    <strong>{{comment.user.username }}</strong> - <small>{{ comment.date_added|timesince }}</small>
+                    <br/>
+                    {{ comment.content }}
+                    <br/>
+                {% endfor %}
+            {% endif %}
+            
             
             
         </div>

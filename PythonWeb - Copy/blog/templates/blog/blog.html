@@ -3,6 +3,24 @@
 {% block title %}Blog{% endblock %}
 
 {% block content %}
+<strong>{{ num_result }} results</strong><br/>
+    <div class="pagination">
+        <span class="step-links">
+        {% if object_list.has_previous %}
+            <a href="?page={{ object_list.previous_page_number }}">Previous </a>
+        {% endif %}
+        
+        <span class="current">
+            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+        </span>
+
+        {% if object_list.has_next %}
+            <a href="?page={{ object_list.next_page_number }}">Next</a>
+        {% endif %}
+
+
+    </div>
+
 <div>
 <ul class="list-group">
     {% for post in object_list %}
@@ -23,6 +41,8 @@
         <p>{{ post.body|safe|linebreaks|truncatechars:100 }}</p>
     </li>    
     {% endfor %}
+
+    
 
 </ul>
 </div>

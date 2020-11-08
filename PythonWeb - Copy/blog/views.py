@@ -1,12 +1,43 @@
 from django.shortcuts import render,get_object_or_404
 from django.views import generic
+from django.contrib.auth.models import User
 from . import views
-from .models import Post, Category
+from .models import Post, Category,Comment
 from . import forms
 from django.urls import reverse_lazy,reverse
 from django.http import HttpResponseRedirect
+from django.db.models import Q
+from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 
 # Create your views here.
+
+def PostListSearch(request,id=None):
+    query = request.GET.get("q", None)
+    queryset_list = Post.objects.all()
+
+    if query:
+        queryset_list = queryset_list.filter(
+            Q(title__icontains=query),
+            Q(body__icontains=query),
+        ).distinct() 
+
+    num_result = queryset_list.count()
+    p = Paginator(queryset_list, 3)
+    page = request.GET.get('page')
+    try:
+        queryset = p.page(page)
+    except PageNotAnInteger:
+        queryset = p.page(1)
+    except EmptyPage:
+        queryset = p.page(p.num_pages)
+
+    context = {
+        'object_list': queryset,
+        'num_result': num_result,
+        
+    }
+    template = "blog/blog.html"
+    return render(request,template,context)
 
 class PostListView(generic.ListView):
     model = Post
@@ -112,4 +143,21 @@ def LikeView(request, pk):
         post.likes.add(request.user)
         liked = True
     return HttpResponseRedirect(reverse('post_detail',args=[str(pk)]))
+
+class AddCommentView(generic.CreateView):
+    model = Comment
+    template_name="blog/add_comment.html"
+    form_class = forms.CommentForm
+
+    def get_context_data(self, *args, **kwargs):
+        post = Post.objects.get(pk=self.kwargs['pk'])
+        context = super(AddCommentView, self).get_context_data(*args, **kwargs)
+        context["post"] = post
+        return context
+
+    def get_success_url(self,*args, **kwargs):
+        return reverse_lazy('post_detail', args=[str(self.kwargs['pk'])])
+    
+
+
     

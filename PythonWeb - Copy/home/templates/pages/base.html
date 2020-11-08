@@ -46,17 +46,15 @@
                         {% if user.profile.id %}
                             <li><a href="{% url 'show_profile' user.profile.pk %}">My Blog</a></li>
                         {% else %}
-                            <li><a href="{% url 'create_profile' %}">Create my profile</a></li>
+                            <li><a href="{% url 'create_profile' user.pk %}">Create my profile</a></li>
                         {% endif %}
                         
                     {% endif %}    
                 </ul>
                 <div class="navbar-expand-sm">
-                    <form class="navbar-form navbar-left" action="/action_page.php">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                    <form class="navbar-form navbar-left" method="GET">
+                        <input type="text" class="form-control" placeholder="Search" name="q" />    
+                        <button type="submit" class="btn btn-primary">Search</button>
                     </form>  
 
                 </div>
@@ -80,7 +78,7 @@
     </header>
    <div class="container-fluid" style="min-height:95%">
         <div class="container">
-            <div class="row">   
+            <div class="col-md-9">   
             {% block content %}
     
             {% endblock content%}

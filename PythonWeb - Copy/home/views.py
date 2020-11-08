@@ -48,11 +48,11 @@ class CreateProfileView(generic.CreateView):
     model = Profile
     template_name = 'registration/create_profile.html'
     form_class = ProfileForm
-    success_url = reverse_lazy('show_profile')
     
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+    def get_success_url(self, *args, **kwargs):
+        return reverse_lazy('show_profile', args=[str(self.object.pk)])
+    
+    
 
     
 
