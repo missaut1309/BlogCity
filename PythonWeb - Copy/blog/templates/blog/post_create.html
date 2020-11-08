@@ -1,0 +1,29 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Post Create{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
+    <h1>Create Post</h1>
+    <form method="POST" enctype="multipart/form-data" >
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button class="btn btn-primary" style="float: right">Post</button>
+        
+    </form>
+
+    <a href="{% url 'category_create' %}">
+        <button class="btn btn-primary">Create Category</button>
+    </a>
+</div>
+<script>
+    var name = "{{ user.id }}";
+    document.getElementById("author-name").value = name;
+</script>
+{% else %}
+    <strong>You are not allowed to create post!! Please login to create post!!</strong>
+{% endif %}
+{% endblock content %}

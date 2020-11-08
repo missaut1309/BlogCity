@@ -1,0 +1,24 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Category{% endblock %}
+
+{% block content %} 
+    {% if category %}
+        <h1> {{ category }} </h1>
+        {% for post in category_post  %}
+            <h2><a href=" {{ post.get_absolute_url }}">  {{post.title}}</a><small>{{post.date|timesince}} ago</small></h2>
+            {% if user.is_authenticated %}
+                <p><a href={% url 'post_update' post.pk %} >Edit</a>|<a href={% url 'post_delete' post.pk %} >Delete</a></p>
+            {% endif %}
+            
+            {% if post.image %}
+                <img src="{{post.image.url}}" width="500px" height="300px"/>
+            {% endif %}
+            <p>{{ post.body|safe|linebreaks|truncatechars:200 }}</p>
+        {% endfor %}
+    {% else %}
+        <h1> Sorry, this category is not exist</h1>
+    {% endif %}
+    
+
+{% endblock content %}

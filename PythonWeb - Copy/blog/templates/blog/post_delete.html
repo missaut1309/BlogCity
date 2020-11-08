@@ -1,0 +1,17 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Post Delete{% endblock %}
+
+{% block content %}
+{% if user.id == post.author.id %}
+    <h1>Delete Post: {{ post.title }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+         <strong>Are you sure to delete {{post.title}}!?</strong><br/>
+        <button class="btn btn-danger">Delete!</button>
+
+    </form>
+{% else %}
+    <strong>You are not allowed to delete this post</strong>
+{% endif %}
+{% endblock content %}

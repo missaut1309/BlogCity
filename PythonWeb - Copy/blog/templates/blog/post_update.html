@@ -1,0 +1,25 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Post Edit{% endblock %}
+
+{% block content %}
+{% if user.id == post.author.id %}
+    {% if user.is_authenticated %}
+        <h1>Edit Post</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <table>
+                {{ form.as_p}}
+                
+            </table>
+            <button class="btn btn-primary">Update Post</button>
+
+        </form>
+    {% else %}
+        <strong>You are not allowed to edit this post!!!</strong>
+        <p>Please login to edit your post</p>
+    {% endif %}
+{% else %}
+    <strong>You are not allowed to edit this post</strong>
+{% endif %}
+{% endblock content %}

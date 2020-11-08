@@ -1,0 +1,22 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+    <h1>Edit Profile</h1>
+    <br/>
+    {{ user.profile.bio }}
+
+    <br/><br/>
+    <div class="form-group col-sm-6">
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table}}
+            
+        </table>
+        <button class="btn btn-primary">Update Profile</button>
+
+    </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+   <meta charset="UTF-8">
+   
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+   <!--<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">-->
+   <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+   <title>{% block title %}{% endblock %}</title>
+   
+   <style>
+    html, body{
+        height:100%;
+    }
+   </style>
+</head>
+<body>
+    <header class="main-navbar">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+            <div class="container-fluid">
+                <div class="navbar-header" style=" width: 30%;">
+                    <a class="navbar-brand" href="#">BlogCity</a>
+                </div>
+                <ul class="nav navbar-nav">
+                {% if cat_menu %}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
+                        <ul class="dropdown-menu">    
+                            {% for item in cat_menu %}
+                                <li><a href="{% url 'category' item|slugify %}">{{ item }}</a></li>
+                            {% endfor %}
+                        </ul>   
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'category_list' %}">Categories</a></li>
+                {% endif %}
+                
+
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'blog' %}">Home</a></li>
+                        <li><a href="{% url 'post_create' %}">Add Post</a></li>
+                        {% if user.profile.id %}
+                            <li><a href="{% url 'show_profile' user.profile.pk %}">My Blog</a></li>
+                        {% else %}
+                            <li><a href="{% url 'create_profile' %}">Create my profile</a></li>
+                        {% endif %}
+                        
+                    {% endif %}    
+                </ul>
+                <div class="navbar-expand-sm">
+                    <form class="navbar-form navbar-left" action="/action_page.php">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>  
+
+                </div>
+
+                
+                {% if user.is_authenticated %}
+                    <div class="nav navbar-right navbar-nav" style="display: none">
+                        <img class="account-picture" src="{% static 'images/haechan.jpeg' %}" alt="account avatar"/>
+                    </div>
+                    <div class="nav navbar-right navbar-nav"> {{ user.username}}|<a href="{% url 'logout' %}">Log out </a> </div>
+                    
+                {% else %}  
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    </ul>                    
+                {% endif %}  
+            </div>
+            </div>
+        </nav>    
+    </header>
+   <div class="container-fluid" style="min-height:95%">
+        <div class="container">
+            <div class="row">   
+            {% block content %}
+    
+            {% endblock content%}
+            </div>    
+        </div>
+    </div>
+
+   <footer>
+        <div class="container-fluid">
+            <a href="#">Facebook</a>|<a href="#">Twitter</a>|<a href="#">Google+</a>
+        </div>
+    </footer>
+   
+</body>
+</html>

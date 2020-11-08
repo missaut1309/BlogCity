@@ -1,0 +1,65 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Profile{% endblock %}
+{% load static %}
+
+{% block content %}
+    <div class="col-md-3">
+    {% if profile.user.id %}
+        {% if profile.profile_pic %}
+            <img src="{{ profile.profile_pic.url }}" height= 200 width=200 class="img-circle">
+        {% else %}
+            <img src="{% static 'images/haechan.jpeg' %}" height= 200 width=200 class="img-circle">
+        {% endif %}
+        <p><h2>{{ profile.user.first_name}} {{ profile.user.last_name }}</h2></p>
+        <p><small>@{{ profile.user.username }}</small></p>
+        <p>Email: {{ profile.user.email }}</p>
+        {% if user.id == profile.user.id %}
+            <a href="{% url 'edit_account' profile.user.pk %}"><button class="btn btn-primary">Edit Account</button></a>
+        {% endif %}
+        
+        <hr/>
+        {% if profile.bio %}
+            <p><strong>Introduction:</strong></p>
+            <p>{{ profile.bio }}</p>
+        {% endif %}
+        {% if user.id == profile.user.id %}
+            {% if profile.bio %}
+                {% if profile.id  %}
+                    <a href="{% url 'edit_profile' profile.pk %}"><button class="btn btn-primary">Edit Profile</button></a>
+                {% endif %}
+                
+            {% else %}
+                <a href="{% url 'edit_profile' profile.pk %}"><button class="btn btn-primary">Add profile</button></a>
+            {% endif %}
+
+        {% endif %}
+        <hr/>
+        
+
+    </div>
+    <div class="col-md-9">
+        <ul class="list-group">
+    {% for post in user_post %}
+    <li class="list-group-item" style="margin: 5px 0">
+        <h2><a href="{{ post.get_absolute_url }}">  {{post.title}}</a></h2>
+        <p>By {{ post.author.username }} - <small>{{post.date|timesince}} ago</small></p>
+        <p>Category: <a href="{% url 'category' post.category.name|slugify %}">{{ post.category }}</a></p>
+        {% if user.is_authenticated %}
+            {% if user.id == post.author.id %}
+                <p><a href={% url 'post_update' post.id %} >Edit</a>|<a href={% url 'post_delete' post.id %} >Delete</a></p>
+            {% endif %}
+        {% endif %}
+        
+        {% if post.image %}
+            <img src="{{post.image.url}}" width="500px" height="300px"/>
+        {% endif %}
+        
+        <p>{{ post.body|safe|linebreaks|truncatechars:100 }}</p>
+    </li>    
+    {% endfor %}
+
+</ul>
+    </div>
+{% endif %}
+{% endblock content %}

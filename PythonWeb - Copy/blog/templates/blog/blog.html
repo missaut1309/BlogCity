@@ -1,0 +1,32 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block content %}
+<div>
+<ul class="list-group">
+    {% for post in object_list %}
+    <li class="list-group-item" style="margin: 5px 0">
+        <h2><a href="{{ post.get_absolute_url }}">  {{post.title}}</a></h2>
+        <p>By {{ post.author.username }} - <small>{{post.date|timesince}} ago</small></p>
+        <p>Category: <a href="{% url 'category' post.category.name|slugify %}">{{ post.category }}</a></p>
+        {% if user.is_authenticated %}
+            {% if user.id == post.author.id %}
+                <p><a href={% url 'post_update' post.id %} >Edit</a>|<a href={% url 'post_delete' post.id %} >Delete</a></p>
+            {% endif %}
+        {% endif %}
+        
+        {% if post.image %}
+            <img src="{{post.image.url}}" width="500px" height="300px"/>
+        {% endif %}
+        
+        <p>{{ post.body|safe|linebreaks|truncatechars:100 }}</p>
+    </li>    
+    {% endfor %}
+
+</ul>
+</div>
+
+
+
+{% endblock content %}
