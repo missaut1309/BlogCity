@@ -42,8 +42,9 @@
 
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'blog' %}">Home</a></li>
-                        <li><a href="{% url 'post_create' %}">Add Post</a></li>
+                        
                         {% if user.profile.id %}
+                            <li><a href="{% url 'post_create' %}">Add Post</a></li>
                             <li><a href="{% url 'show_profile' user.profile.pk %}">My Blog</a></li>
                         {% else %}
                             <li><a href="{% url 'create_profile' user.pk %}">Create my profile</a></li>

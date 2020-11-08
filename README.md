@@ -29,7 +29,7 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-## truy cập vào hệ thông blog
+## Truy cập vào hệ thống BlogCity
 ```bash
 http://127.0.0.1:8000/blog/
 ```
