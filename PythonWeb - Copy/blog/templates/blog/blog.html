@@ -24,7 +24,7 @@
 <div>
 <ul class="list-group">
     {% for post in object_list %}
-    <li class="list-group-item" style="margin: 5px 0">
+    <li class="list-group-item" style="margin: 8px 0">
         <h2><a href="{{ post.get_absolute_url }}">  {{post.title}}</a></h2>
         <p>By {{ post.author.username }} - <small>{{post.date|timesince}} ago</small></p>
         <p>Category: <a href="{% url 'category' post.category.name|slugify %}">{{ post.category }}</a></p>

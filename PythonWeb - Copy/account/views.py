@@ -19,7 +19,12 @@ class UserEditView(generic.UpdateView):
     def get_object(self):
         return self.request.user
 
+    def get_success_url(self, *args, **kwargs):
+        return reverse_lazy('show_profile', args=[str(self.kwargs['pk'])])
+
 class ChangePasswordView(PasswordChangeView):
     form_class = ChangePasswordForm
     template_name = 'registration/change_password.html'
-    success_url = reverse_lazy('blog')
+    
+    def get_success_url(self, *args, **kwargs):
+        return reverse_lazy('show_profile', args=[str(self.kwargs['pk'])])

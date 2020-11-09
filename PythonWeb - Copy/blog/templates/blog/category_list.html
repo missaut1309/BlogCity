@@ -4,7 +4,13 @@
 
 {% block content %}
 <h1>Blog Categories </h1>
+<ul class="list-group">
     {% for item in cat_menu_list %}
-        <h4><li><a href="{% url 'category' item|slugify %}">{{ item }}</a></li></h4>
+    <li class="list-group-item" style="margin: 8px 0">
+        <h3><a href="{% url 'category' item|slugify %}">{{ item }}</a></h3>
+    </li>
     {% endfor %}
+</ul>
+
+    
 {% endblock content %}

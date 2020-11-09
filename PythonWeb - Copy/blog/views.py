@@ -22,6 +22,7 @@ def PostListSearch(request,id=None):
         ).distinct() 
 
     num_result = queryset_list.count()
+    queryset_list = queryset_list.order_by("-date")
     p = Paginator(queryset_list, 3)
     page = request.GET.get('page')
     try:
@@ -85,7 +86,7 @@ class PostCreateView(generic.CreateView):
 class PostUpdateView(generic.UpdateView):
     model = Post
     template_name = 'blog/post_update.html'
-    fields = ['title', 'body','category']
+    form_class = forms.PostEditForm
 
     def get_context_data(self, *args, **kwargs):
         cat_menu = Category.objects.all()
