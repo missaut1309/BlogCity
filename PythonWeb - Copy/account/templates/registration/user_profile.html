@@ -9,7 +9,7 @@
         {% if profile.profile_pic %}
             <img src="{{ profile.profile_pic.url }}" height= 150 width=150 class="img-circle">
         {% else %}
-            <img src="{% static 'images/haechan.jpeg' %}" height= 150 width=150 class="img-circle">
+            <img src="{% static 'images/default-avatar.jpg' %}" height= 150 width=150 class="img-circle">
         {% endif %}
         <p><h2>{{ profile.user.first_name}} {{ profile.user.last_name }}</h2></p>
         <p><small>@{{ profile.user.username }}</small></p>

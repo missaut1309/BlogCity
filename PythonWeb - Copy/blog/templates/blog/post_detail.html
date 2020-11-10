@@ -9,7 +9,7 @@
         {% if post.author.profile.profile_pic %}
             <img src="{{ post.author.profile.profile_pic.url }}" height= 150 width=150 class="img-circle">
         {% else %}
-            <img src="{% static 'images/haechan.jpeg' %}" height= 150 width=150 class="img-circle">
+            <img src="{% static 'images/default-avatar.jpg' %}" height= 150 width=150 class="img-circle">
         {% endif %}
         <a href="{% url 'show_profile' post.author.profile.pk %}">
             <h3>{{ post.author.first_name }} {{ post.author.last_name}}</h3>

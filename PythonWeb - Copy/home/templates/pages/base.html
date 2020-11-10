@@ -22,7 +22,7 @@
         <nav class="navbar navbar-inverse">
             <div class="container">
             <div class="container-fluid">
-                <div class="navbar-header" style=" width: 30%;">
+                <div class="navbar-header" style=" width: 30%">
                     <a class="navbar-brand" href="#">BlogCity</a>
                 </div>
                 <ul class="nav navbar-nav">
@@ -65,7 +65,7 @@
                     <div class="nav navbar-right navbar-nav" style="display: none">
                         <img class="account-picture" src="{% static 'images/haechan.jpeg' %}" alt="account avatar"/>
                     </div>
-                    <div class="nav navbar-right navbar-nav"> {{ user.username}}|<a href="{% url 'logout' %}">Log out </a> </div>
+                    <div class="nav navbar-right navbar-nav"> {{ user.username}}|<button type="button" class =  "btn btn-primary" href="{% url 'logout' %}">Log out </button> </div>
                     
                 {% else %}  
                     <ul class="nav navbar-nav navbar-right">
