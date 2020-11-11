@@ -11,34 +11,39 @@ from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 
 # Create your views here.
 
-def PostListSearch(request,id=None):
-    query = request.GET.get("q", None)
-    queryset_list = Post.objects.all()
+class SearchView(generic.ListView):
+    template_name = 'blog/blog.html'
+    paginate_by = 5
+    count = 0
 
-    if query:
-        queryset_list = queryset_list.filter(
-            Q(title__icontains=query),
-            Q(body__icontains=query),
-        ).distinct() 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        cat_menu = Category.objects.all()
+        context["cat_menu"] = cat_menu
+        context['count'] = self.count or 0
+        context['query'] = self.request.GET.get('q')
+        return context
 
-    num_result = queryset_list.count()
-    queryset_list = queryset_list.order_by("-date")
-    p = Paginator(queryset_list, 3)
-    page = request.GET.get('page')
-    try:
-        queryset = p.page(page)
-    except PageNotAnInteger:
-        queryset = p.page(1)
-    except EmptyPage:
-        queryset = p.page(p.num_pages)
+    def get_queryset(self):
+        request = self.request
+        query = request.GET.get('q', None)
 
-    context = {
-        'object_list': queryset,
-        'num_result': num_result,
-        
-    }
-    template = "blog/blog.html"
-    return render(request,template,context)
+        if query is not None:
+            post_result = Post.objects.search(query)
+            category_result = Category.objects.search(query)
+            profile_result = Profile.objects.search(query)
+
+            queryset_chain = chain (
+                post_result,
+                category_result,
+                profile_result
+            )
+            qs = sorted(queryset_chain,
+                        key = lambda instance: instance.__class__.__name__,
+                        reverse=True)
+            self.count = len(qs)
+            return qs
+        return Post.objects.all().order_by("-date")
 
 class PostListView(generic.ListView):
     model = Post

@@ -15,7 +15,7 @@ class ShowProfileView(generic.DetailView):
     def get_context_data(self, *args, **kwargs):
         profile = get_object_or_404(Profile, pk=self.kwargs['pk'])
         user_profile = User.objects.get(id=profile.user_id)
-        user_post = Post.objects.filter(author=user_profile)
+        user_post = Post.objects.filter(author=user_profile).order_by("-date")
         context = super(ShowProfileView, self).get_context_data(*args, **kwargs)
         
         context["profile"] = profile

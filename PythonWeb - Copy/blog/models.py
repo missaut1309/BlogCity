@@ -20,7 +20,6 @@ class Post(models.Model):
     date = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
-    snippet = models.CharField(max_length=255,default="Click to link to read post!!")
     likes = models.ManyToManyField(User, related_name='blog_posts', null=True)
 
     def __str__(self):
@@ -31,6 +30,8 @@ class Post(models.Model):
 
     def total_likes(self):
         return self.likes.count()
+
+    
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments_post")
