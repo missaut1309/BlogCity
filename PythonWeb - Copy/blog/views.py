@@ -2,13 +2,13 @@ from django.shortcuts import render,get_object_or_404
 from django.views import generic
 from django.contrib.auth.models import User
 from . import views
-from .models import Post, Category,Comment
+from .models import Post, Category,Comment, Profile
 from . import forms
 from django.urls import reverse_lazy,reverse
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
-
+from itertools import chain
 # Create your views here.
 
 class SearchView(generic.ListView):

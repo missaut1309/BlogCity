@@ -62,11 +62,11 @@
 
                 
                 {% if user.is_authenticated %}
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" style="margin-top: 6px">
                     <li >
-                        <img class="account-picture" src="{% static 'images/default-avatar.jpg' %}" alt="account avatar" height="45px" width="45px" style="margin-right:10px" />
+                        <img class="account-picture" src="{% static 'images/default-avatar.jpg' %}" alt="account avatar" height="45px" width="45px" style="margin-right:10px; border-radius: 50%;" />
                     </li>
-                    <li> {{ user.username }}|<button type="button" class =  "btn btn-sm btn-primary" href="{% url 'logout' %}">Log out </button> </li>
+                    <li> {{ user.username }} <button style="margin-left: 5px;" type="button" class =  "btn btn-sm btn-primary" > <a style=" color: aliceblue;" href="{% url 'logout' %}">Log out </a></button> </li>
                 </ul>   
                 {% else %}  
                     <ul class="nav navbar-nav navbar-right">
